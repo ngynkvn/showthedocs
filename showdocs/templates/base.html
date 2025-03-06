@@ -5,7 +5,7 @@
         {% assets filters="scss", output="showdocs.css", "showdocs.scss" %}
         <link rel="stylesheet" href="{{ ASSET_URL }}">
         {% endassets %}
-        {% assets filters="buble", output="showdocs.buble.js", "showdocs.js" %}
+        {% assets "showdocs.js" %}
         <script src="{{ ASSET_URL }}"></script>
         {% endassets %}
         {% if config.TEST %}
@@ -67,3 +67,6 @@
         {% block bodyend %}{% endblock %}
     </body>
 </html>
+<!-- 
+vi: ft=liquid:
+-->

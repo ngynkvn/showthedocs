@@ -5,7 +5,6 @@ logger = logging.getLogger(__name__)
 from flask import Flask
 
 from flask_assets import Environment, Bundle
-import showdocs.bublefilter
 
 app = Flask(__name__)
 assets = Environment(app)
@@ -18,9 +17,12 @@ if config.TEST:
 app.config.from_object(config)
 
 _addedhandlers = False
+
+
 def setuplogging():
     import logging, sys
-    root = logging.getLogger('showdocs')
+
+    root = logging.getLogger("showdocs")
     root.setLevel(logging.INFO)
 
     if not config.LOG:
@@ -32,7 +34,7 @@ def setuplogging():
         return
     _addedhandlers = True
 
-    formatter = logging.Formatter('%(asctime)s %(name)s[%(levelname)s] %(message)s')
+    formatter = logging.Formatter("%(asctime)s %(name)s[%(levelname)s] %(message)s")
     if config.TEST:
         h = logging.StreamHandler(sys.stdout)
     else:
@@ -43,24 +45,31 @@ def setuplogging():
     root.setLevel(logging.INFO)
     root.addHandler(h)
 
+
 setuplogging()
 
+
 def configureassets():
-    staticextdir = os.path.join(config.STATIC_DIR, 'external')
+    staticextdir = os.path.join(config.STATIC_DIR, "external")
     scss = []
     for root, _, files in os.walk(staticextdir):
         for name in files:
             path, ext = os.path.splitext(name)
-            if ext != '.scss':
+            if ext != ".scss":
                 continue
             type_ = os.path.splitext(path)[0]
             fullpath = os.path.join(root, name)
             staticrelative = os.path.relpath(fullpath, config.STATIC_DIR)
-            output = os.path.join('external', path)
-            bundle = Bundle(staticrelative, filters='scss', output=output)
-            assetname = type_ + '_scss'
+            output = os.path.join("external", path)
+            bundle = Bundle(staticrelative, filters="scss", output=output)
+            assetname = type_ + "_scss"
             assets.register(assetname, bundle)
-            logger.info('bundled %s, output path %s, registered as %s',
-                        staticrelative, output, assetname)
+            logger.info(
+                "bundled %s, output path %s, registered as %s",
+                staticrelative,
+                output,
+                assetname,
+            )
+
 
 configureassets()

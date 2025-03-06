@@ -52,7 +52,7 @@
 </div>
 {% endblock %}
 {% block bodyend %}
-{% assets filters="buble", output="examples.buble.js", "examples.js" %}
+{% assets "examples.js" %}
 <script src="{{ ASSET_URL }}"></script>
 {% endassets %}
 <script>
@@ -95,3 +95,6 @@ else if (history.state != null && 'lang' in history.state) {
 }
 </script>
 {% endblock %}
+<!-- 
+vi: ft=liquid:
+-->
