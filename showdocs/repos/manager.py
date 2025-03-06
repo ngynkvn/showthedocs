@@ -8,12 +8,12 @@ import showdocs.repos.common
 logger = logging.getLogger(__name__)
 
 def listrepos():
-    return repos.common.registered.keys()
+    return list(repos.common.registered.keys())
 
 def get(name):
     if name not in repos.common.registered:
         raise ValueError('unknown lang %r, known languages: %s' %
-                         (name, ', '.join(repos.common.registered.keys())))
+                         (name, ', '.join(list(repos.common.registered.keys()))))
     return repos.common.registered[name]
 
 class RepositoryManager(object):

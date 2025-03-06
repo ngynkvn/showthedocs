@@ -30,7 +30,7 @@ class testrepo(repos.common.Repository):
 
         # Test lxml preserves unicode correctly.
         with open(os.path.join(self.stagingdir, 'unicode.html'), 'w') as f:
-            f.write(u'<b>\u05d0</b>'.encode('utf8'))
+            f.write('<b>\u05d0</b>'.encode('utf8'))
 
     def match(self):
         yield lambda p: False
@@ -65,16 +65,16 @@ class TestRepos(unittest.TestCase):
         self.assertFalse(os.path.exists(os.path.join(outdir, 'test', 'foo',
                                                      'baz.html')))
 
-        self.assertEquals(open(os.path.join(outdir, 'test', 'file.html')).read(), '<a>c</a>')
-        self.assertEquals(
+        self.assertEqual(open(os.path.join(outdir, 'test', 'file.html')).read(), '<a>c</a>')
+        self.assertEqual(
             open(os.path.join(outdir, 'test', 'unicode.html')).read(),
-            u'<b>\u05d0</b>'.encode('utf-8'))
+            '<b>\u05d0</b>'.encode('utf-8'))
 
         old = testrepo.filters
         testrepo.filters = lambda self: []
 
         manager.generate()
-        self.assertEquals(
+        self.assertEqual(
             open(os.path.join(outdir, 'test', 'file.html')).read(), '<a>b</a>')
 
         testrepo.filters = old

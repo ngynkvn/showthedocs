@@ -17,7 +17,7 @@ class formatoptions(object):
     def asobject(self):
         class container(object):
             def __init__(self, d):
-                for k, v in d.iteritems():
+                for k, v in d.items():
                     setattr(self, k, v)
         return container(self.opts)
 

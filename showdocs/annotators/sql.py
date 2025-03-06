@@ -121,7 +121,7 @@ class SqlAnnotator(base.Annotator):
     def annotate(self, text, dumptree=False):
         parsed = parsers.sql.parse(text)
         if dumptree:
-            print parsed._pprint_tree()
+            print(parsed._pprint_tree())
 
         self.pos, _ = parsers.sql.calcpositions(parsed)
 

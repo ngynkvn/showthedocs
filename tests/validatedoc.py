@@ -5,7 +5,7 @@ import lxml.etree
 from showdocs import docs
 
 def validate(path, contents):
-    print 'validating %r' % path
+    print('validating %r' % path)
     root = lxml.html.fromstring(contents)
     for t in root.cssselect('[data-showdocs]'):
         errors = []
@@ -17,7 +17,7 @@ def validate(path, contents):
             errors.append("has no showdocs-decorate-* class, found %r" %
                           classes)
         for e in errors:
-            print trepr, e
+            print(trepr, e)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

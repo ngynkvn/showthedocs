@@ -1,84 +1,96 @@
-import collections, logging, os, codecs
+import codecs
+import collections
+import logging
+import os
+from collections.abc import MutableSet
 
 from showdocs import config
 
-ExternalDoc = collections.namedtuple('ExternalDoc', 'contents'.split())
+ExternalDoc = collections.namedtuple("ExternalDoc", "contents".split())
 
 logger = logging.getLogger(__name__)
 
 _filecache = {}
 
-def readone(path):
-    return codecs.open(path, encoding='utf-8').read()
 
-def loadall(root=''):
+def readone(path):
+    return codecs.open(path, encoding="utf-8").read()
+
+
+def loadall(root=""):
     if not root:
         root = config.ROOT
 
     root = os.path.normpath(root)
-    extdir = os.path.join(root, 'external')
+    extdir = os.path.join(root, "external")
     if not os.path.exists(extdir):
         raise RuntimeError(
-            "can't find directory 'external' under %r (run getdocs clone?)" %
-            root)
+            "can't find directory 'external' under %r (run getdocs clone?)" % root
+        )
 
     d = {}
     for root, _, files in os.walk(extdir):
         for name in files:
-            if os.path.splitext(name)[1] != '.html':
+            if os.path.splitext(name)[1] != ".html":
                 continue
             fullpath = os.path.join(root, name)
-            logger.info('adding %r to docs filecache', fullpath)
+            logger.info("adding %r to docs filecache", fullpath)
             contents = readone(fullpath)
-            key = fullpath[len(extdir)+1:]
+            key = fullpath[len(extdir) + 1 :]
 
             d[key] = ExternalDoc(contents)
 
     return d
 
+
 _init = False
-def initfilecache(root=''):
+
+
+def initfilecache(root=""):
     global _init
+    global _filecache
     if _init:
         return _filecache
     # Don't cache anything in testing.
     if not config.TEST:
         _init = True
 
-    logger.info('initializing docs filecache')
-    global _filecache
+    logger.info("initializing docs filecache")
     _filecache = loadall(root)
-    logger.info('done initializing docs filecache')
+    logger.info("done initializing docs filecache")
 
     return _filecache
 
 
-class Collection(collections.MutableSet):
-    '''A collection represents documentation that was requested by an
+class Collection(MutableSet):
+    """A collection represents documentation that was requested by an
     annotator. It is eventually passed to the UI, which returns the HTML in the
-    response to a query.'''
+    response to a query."""
+
     def __init__(self):
         # Use a list so order is preserved.
         self._paths = []
 
         self._filecache = initfilecache()
 
-    def add(self, path):
-        if path not in self._filecache:
-            raise ValueError('unknown doc %r' % path)
-        if path in self._paths:
+    def add(self, value):
+        if value not in self._filecache:
+            raise ValueError("unknown doc %r" % value)
+        if value in self._paths:
             return
-        logger.info('adding %r to doc collection', path)
-        self._paths.append(path)
+        logger.info("adding %r to doc collection", value)
+        self._paths.append(value)
 
-    def discard(self, path):
-        if path in self._paths:
-            self._paths.remove(path)
+    def discard(self, value):
+        if value in self._paths:
+            self._paths.remove(value)
 
     def __contains__(self, path):
         return path in self._paths
+
     def __iter__(self):
         return iter(self._paths)
+
     def __len__(self):
         return len(self._paths)
 

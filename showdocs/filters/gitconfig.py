@@ -36,7 +36,7 @@ class AnnotatingFilter(common.Filter):
         span.set('data-showdocs', group)
         span.classes.add(decoration)
 
-        attrs = e.items()
+        attrs = list(e.items())
         e.clear()
         for k, v in attrs:
             e.set(k, v)
@@ -53,7 +53,7 @@ class AnnotatingFilter(common.Filter):
             name = e.text_content().lower()
 
             # Replace any patterns found in name.
-            for substring, replacewith in self.patterns.iteritems():
+            for substring, replacewith in self.patterns.items():
                 if substring in name:
                     name = name.replace(substring, replacewith)
                     break

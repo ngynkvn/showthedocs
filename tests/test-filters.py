@@ -14,7 +14,7 @@ class TestFilters(unittest.TestCase):
 
     def test_no_filters(self):
         filtered = filters.common.pipeline(self.context, [], TESTHTML)
-        self.assertEquals(TESTHTML, filtered)
+        self.assertEqual(TESTHTML, filtered)
 
     def test_no_changes(self):
         class noopfilter(filters.common.Filter):
@@ -22,7 +22,7 @@ class TestFilters(unittest.TestCase):
                 pass
 
         filtered = filters.common.pipeline(self.context, [noopfilter], TESTHTML)
-        self.assertEquals(TESTHTML, filtered)
+        self.assertEqual(TESTHTML, filtered)
 
     def test_new_root(self):
         class replacesroot(filters.common.Filter):
@@ -32,7 +32,7 @@ class TestFilters(unittest.TestCase):
                 return elem
 
         filtered = filters.common.pipeline(self.context, [replacesroot], TESTHTML)
-        self.assertEquals('<hi>foo</hi>', filtered)
+        self.assertEqual('<hi>foo</hi>', filtered)
 
     def test_changes(self):
         class firstfilter(filters.common.Filter):
@@ -56,5 +56,5 @@ class TestFilters(unittest.TestCase):
 
         filtered = filters.common.pipeline(self.context,
             [firstfilter, secondfilter, thirdfilter], TESTHTML)
-        self.assertEquals(filtered,
+        self.assertEqual(filtered,
                           '<span data-showdocs="bar"><a>foo</a></span>')

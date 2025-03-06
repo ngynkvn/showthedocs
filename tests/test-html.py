@@ -6,7 +6,7 @@ Ann = structs.Annotation
 
 class TestHtml(unittest.TestCase):
     def check(self, got, expected):
-        self.assertEquals(got, expected,
+        self.assertEqual(got, expected,
                           'got, expected\n%s\n\n%s' % (got, expected))
 
     def test_wrap(self):
@@ -23,14 +23,14 @@ class TestHtml(unittest.TestCase):
         q = '012345'
         e = errors.ParsingError('foo', q, 0)
         wrappedq, wrappede = html.formaterror(q, e)
-        self.assertEquals(wrappedq, '{a}0</span>12345'.format(a=a.format()))
-        self.assertEquals(wrappede,
+        self.assertEqual(wrappedq, '{a}0</span>12345'.format(a=a.format()))
+        self.assertEqual(wrappede,
                           'at position {a}0</span>: foo.'.format(a=a.format()))
 
         e = errors.ParsingError('foo <bar>', q, len(q)-1)
         wrappedq, wrappede = html.formaterror(q, e)
-        self.assertEquals(wrappedq, '01234{a}5</span>'.format(a=a.format()))
-        self.assertEquals(
+        self.assertEqual(wrappedq, '01234{a}5</span>'.format(a=a.format()))
+        self.assertEqual(
             wrappede,
             'at position {a}5</span>: foo &lt;bar&gt;.'.format(a=a.format()))
 
@@ -64,7 +64,7 @@ class TestHtml(unittest.TestCase):
         a1 = Ann(0, len(s), 'g1', ['c'])
         a2 = Ann(2, 4, 'g2', ['c'])
 
-        self.assertEquals(
+        self.assertEqual(
             html.wrap(s, [a1, a2]),
             '{a1}01{a2}23</span>45</span>'.format(a1=a1.format(),
                                                    a2=a2.format()))
@@ -98,15 +98,15 @@ class TestHtml(unittest.TestCase):
             return Ann(start, end, 'g', ['c'], lineno)
 
         s = '01'
-        self.assertEquals(html._splitnewline(s, a(0, 2, 0)), [a(0, 2, 0)])
+        self.assertEqual(html._splitnewline(s, a(0, 2, 0)), [a(0, 2, 0)])
 
         s = '  01  '
-        self.assertEquals(html._splitnewline(s, a(0, 6, 0)), [a(2, 4, 0)])
+        self.assertEqual(html._splitnewline(s, a(0, 6, 0)), [a(2, 4, 0)])
 
         s = '0 \n 1 2\n  3'
-        self.assertEquals(
+        self.assertEqual(
             html._splitnewline(s, a(0, 7, 0)), [a(0, 1, 0), a(4, 7, 1)])
 
         s = '0\n 1 2'
-        self.assertEquals(
+        self.assertEqual(
             html._splitnewline(s, a(0, 6, 0)), [a(0, 1, 0), a(3, 6, 1)])

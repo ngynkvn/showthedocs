@@ -1,4 +1,4 @@
-import urlparse # for AbsoluteUrls
+import urllib.parse # for AbsoluteUrls
 
 import lxml.html
 import lxml.html.builder
@@ -57,6 +57,6 @@ class AbsoluteUrls(Filter):
 
             link = e.get(attr)
             if link:
-                absoluteurl = urlparse.urljoin(self.context.current_url,
+                absoluteurl = urllib.parse.urljoin(self.context.current_url,
                                                link)
                 e.set(attr, absoluteurl)

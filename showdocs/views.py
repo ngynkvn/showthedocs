@@ -65,7 +65,7 @@ def query():
                                lang=lang,
                                query=markupsafe.Markup(annotated),
                                docs=_safedocs(docs))
-    except errors.NoAnnotatorFound, e:
+    except errors.NoAnnotatorFound as e:
         message = "lang '%s' isn't supported"
         return render_template('error.html',
                                title='oops',
@@ -78,7 +78,7 @@ def query():
                                lang=lang,
                                query=q,
                                message=markupsafe.Markup(message))
-    except errors.ParsingError, e:
+    except errors.ParsingError as e:
         wrappedquery, wrappedmessage = html.formaterror(q, e)
         wrappedmessage = '<span>parsing error</span> ' + wrappedmessage
         return render_template('queryerror.html',

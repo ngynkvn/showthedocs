@@ -12,13 +12,13 @@ class TestSqlAnnotator(unittest.TestCase):
             p = positions[node]
 
             if not node.is_group():
-                self.assertEquals(node.value, s[p[0]:p[1]], repr(node))
+                self.assertEqual(node.value, s[p[0]:p[1]], repr(node))
                 return
 
             pstart = positions[node.tokens[0]][0]
             pend = positions[node.tokens[-1]][1]
             v = s[pstart:pend]
-            self.assertEquals(v, s[p[0]:p[1]], repr(node))
+            self.assertEqual(v, s[p[0]:p[1]], repr(node))
             for token in node.tokens:
                 traverse(token)
 

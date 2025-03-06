@@ -17,7 +17,7 @@ class DevDocsRepository(repos.common.Repository):
             if len(output.split()) < 5:
                 raise errors.RepoBuildError(
                     "thor docs:list returned unexpected output: %r" % output)
-        except (OSError, subprocess.CalledProcessError), e:
+        except (OSError, subprocess.CalledProcessError) as e:
             raise errors.RepoBuildError(
                 "%s doesn't look like a clone of devdocs (looked for thor)" %
                 self.stagingdir)

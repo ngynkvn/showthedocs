@@ -1,6 +1,6 @@
 from showdocs import errors
 
-import sql, nginx, gitconfig
+from . import sql, nginx, gitconfig
 
 _all = [sql.SqlAnnotator, nginx.NginxAnnotator, gitconfig.GitConfigAnnotator]
 _annotators = {}

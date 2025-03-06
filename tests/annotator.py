@@ -7,12 +7,12 @@ def main(args):
     text = sys.stdin.read()
     formatted = ann.format(text, annotate.formatoptions())
     if args.format:
-        print formatted
+        print(formatted)
         return
 
     annotations = ann.annotate(formatted, args.dump)
     if not annotations:
-        print 'no annotations'
+        print('no annotations')
         return 1
     else:
         for a in annotations:
@@ -21,7 +21,7 @@ def main(args):
             if end - begin > 10:
                 context = '%r..%r' % (formatted[begin:begin + 5],
                                       formatted[end - 5:end])
-            print a, context
+            print(a, context)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

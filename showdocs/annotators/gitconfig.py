@@ -57,12 +57,12 @@ class GitConfigAnnotator(base.Annotator):
         self.docs.add('gitconfig/git-config.html')
         try:
             parsed = gitconfig.loads(text)
-        except pyparsing.ParseException, e:
+        except pyparsing.ParseException as e:
             _reraiseparseexception(e, text)
         assert parsed.kind == 'config'
 
         if dumptree:
-            print parsed.dump()
+            print(parsed.dump())
 
         self.visit(parsed)
         return self.annotations

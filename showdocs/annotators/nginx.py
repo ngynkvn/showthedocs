@@ -23,7 +23,7 @@ class NginxAnnotator(base.Annotator):
     def format(self, text, opts):
         try:
             return nginx.dumps(nginx.loads(text))
-        except pyparsing.ParseException, e:
+        except pyparsing.ParseException as e:
             _reraiseparseexception(e, text)
 
     def visit(self, node):
@@ -54,13 +54,13 @@ class NginxAnnotator(base.Annotator):
 
         try:
             parsed = nginx.loads(text)
-        except pyparsing.ParseException, e:
+        except pyparsing.ParseException as e:
             _reraiseparseexception(e, text)
 
         assert parsed.kind == 'main'
 
         if dumptree:
-            print parsed.dump()
+            print(parsed.dump())
 
         self.visit(parsed)
         return self.annotations
