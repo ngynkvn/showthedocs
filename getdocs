@@ -29,7 +29,7 @@ import showdocs.repos.manager
 
 def clone(args):
     if os.path.exists(config.EXTERNAL_DIR):
-        print 'error: %r exists, cannot clone' % config.EXTERNAL_DIR
+        print('error: %r exists, cannot clone' % config.EXTERNAL_DIR)
         return 1
 
     subprocess.check_call(['git', 'clone', config.ARCHIVE_REPO,
@@ -42,8 +42,8 @@ def build(args):
         try:
             langrepo = repos.manager.get(lang)
             reposcls &= set([langrepo])
-        except ValueError, e:
-            print str(e)
+        except ValueError as e:
+            print(str(e))
             return 1
 
     if not os.path.exists(config.STAGING_DIR):
@@ -66,7 +66,7 @@ def main(args):
 
     if args['list']:
         for name in sorted(repos.manager.listrepos()):
-            print name
+            print(name)
     elif args['build']:
         return build(args)
     elif args['clone']:
